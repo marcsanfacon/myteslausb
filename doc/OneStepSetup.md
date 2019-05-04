@@ -75,7 +75,7 @@ You should see in `/boot` the `TESLAUSB_SETUP_FINISHED` and `WIFI_ENABLED` files
     export WIFIPASS=your_wifi_pass
     ```
 
-1. Once you have an `ssh` session, follow the steps starting at [Set up the USB storage functionality](https://github.com/cimryan/teslausb#set-up-the-usb-storage-functionality) in the main guide. 
+1. Once you have an `ssh` session, follow the steps starting at [Set up the USB storage functionality](https://github.com/marcsanfacon/teslausb#set-up-the-usb-storage-functionality) in the main guide. 
 
 ### Troubleshooting
 
@@ -106,4 +106,4 @@ At this point the next boot should start the Dashcam/music drives like normal. I
 
 # Image modification sources
 
-The sources for the image modifications, and details, are in the [pi-gen-sources folder](https://github.com/cimryan/teslausb/pi-gen-sources). 
+The sources for the image modifications, and details, are in the [pi-gen-sources folder](https://github.com/marcsanfacon/teslausb/pi-gen-sources). 

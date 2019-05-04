@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-REPO=${REPO:-cimryan}
+REPO=${REPO:-marcsanfacon}
 BRANCH=${BRANCH:-master}
 HEADLESS_SETUP=${HEADLESS_SETUP:-false}
 USE_LED_FOR_SETUP_PROGRESS=true
