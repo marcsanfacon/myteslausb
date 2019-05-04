@@ -1,4 +1,4 @@
-OPTIONAL: You can choose to integrate with [Pushover](https://pushover.net) or [AWS SNS](https://aws.com) to get a push notification to your phone when the copy process is done. Depending on your wireless network speed/connection, copying files may take some time, so a push notification can help confirm that the process finished. If no files were copied (i.e. all manually saved dashcam files were already copied, no notification will be sent.).
+OPTIONAL: You can choose to integrate with [Pushover](https://pushover.net) or [AWS SNS](https://aws.amazon.com/sns/) to get a push notification to your phone when the copy process is done. Depending on your wireless network speed/connection, copying files may take some time, so a push notification can help confirm that the process finished. If no files were copied (i.e. all manually saved dashcam files were already copied, no notification will be sent.).
 
 The Pushover service is free for up to 7,500 messages per month, but the [iOS](https://pushover.net/clients/ios)/[Android](https://pushover.net/clients/android) apps do have a one time cost, after a free trial period.
 
@@ -23,7 +23,7 @@ You can also choose to send notification through AWS SNS. You can create a free 
 1. Create a user in IAM and give it the rights to SNS.
 1. Create a new SNS topic.
 1. Create the notification end point (email or other)
-1. Run these commands, substituting your user key and app key in the appropriate places. No `"` are needed. 
+1. Run these commands, substituting your user key and app key in the appropriate places. Use of `"` is required for aws_sns_topic_arn. 
     ```
     export sns_enabled=true
     export aws_region=us-east-1

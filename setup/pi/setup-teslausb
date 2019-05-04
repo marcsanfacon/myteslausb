@@ -205,6 +205,7 @@ function upgrade_packages () {
     setup_progress "Upgrading installed packages..."
     apt-get --assume-yes upgrade
 
+    apt-get --assume-yes install python3-pip
     pip3 install boto3
 
   else
