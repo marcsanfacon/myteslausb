@@ -170,6 +170,57 @@ function install_pushover_scripts() {
     get_script $install_path send-pushover run
 }
 
+function check_sns_configuration () {
+    if [ ! -z "${sns_enabled+x}" ]
+    then
+        if [ ! -n "${aws_access_key_id+x}" ] || [ ! -n "${aws_secret_key+x}" || [ ! -n "${aws_sns_topic_arn+x}"  ]
+        then
+            echo "STOP: You're trying to setup AWS SNS but didn't provide your User and/or App key and/or topic ARN."
+            echo "Define the variables like this:"
+            echo "export aws_access_key_id=put_your_accesskeyid_here"
+            echo "export aws_secret_key=put_your_secretkey_here"
+            echo "export aws_sns_topic_arn=put_your_sns_topicarn_here"
+            exit 1
+        elif [ "${aws_access_key_id}" = "put_your_accesskeyid_here" ] || [  "${aws_secret_key}" = "put_your_secretkey_here"  || [  "${aws_sns_topic_arn}" = "put_your_sns_topicarn_here" ]
+        then
+            echo "STOP: You're trying to setup SNS, but didn't replace the default values."
+            exit 1
+        fi
+    fi
+}
+
+function configure_sns () {
+    if [ ! -z "${sns_enabled+x}" ]
+    then        
+        echo "Enabling SNS"
+        mkdir /root/.aws
+
+        echo "[default]" > /root/.aws/credentials
+        echo "aws_access_key_id = $aws_access_key_id" >> /root/.aws/credentials
+        echo "aws_secret_access_key = $aws_secret_key" >> /root/.aws/credentials
+
+        echo "[default]" > /root/.aws/config
+        echo "region = $aws_region" >> /root/.aws/config
+
+        echo "export sns_enabled=true" > /root/.teslaCamSNSTopicARN
+        echo "export sns_topic_arn=$aws_sns_topic_arn" >> /root/.teslaCamSNSTopicARN
+    else
+        echo "SNS not configured."
+    fi
+}
+
+function check_and_configure_sns () {
+    check_sns_configuration
+    
+    configure_sns
+}
+
+function install_sns_scripts() {
+    local install_path="$1"
+    get_script $install_path send-sns run
+    get_script $install_path send_sns.py run
+}
+
 if [ "$ARCHIVE_SYSTEM" = "none" ]
 then
     echo "Skipping archive configuration."
@@ -191,6 +242,9 @@ echo "Getting files from $REPO:$BRANCH"
 
 check_and_configure_pushover
 install_pushover_scripts "$INSTALL_DIR"
+
+check_and_configure_sns
+install_sns_scripts "$INSTALL_DIR"
 
 check_archive_configs
 

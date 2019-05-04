@@ -204,6 +204,9 @@ function upgrade_packages () {
   then
     setup_progress "Upgrading installed packages..."
     apt-get --assume-yes upgrade
+
+    pip3 install boto3
+
   else
     setup_progress "Skipping package upgrade."
   fi
