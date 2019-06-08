@@ -199,15 +199,17 @@ function update_package_index () {
   apt-get update
 }
 
+function install_python_packages () {
+  setup_progress "Installing python packages..."
+  apt-get --assume-yes install python3-pip
+  pip3 install boto3
+}
+
 function upgrade_packages () {
   if [ "$UPGRADE_PACKAGES" = true ]
   then
     setup_progress "Upgrading installed packages..."
     apt-get --assume-yes upgrade
-
-    apt-get --assume-yes install python3-pip
-    pip3 install boto3
-
   else
     setup_progress "Skipping package upgrade."
   fi
@@ -217,6 +219,8 @@ export -f setup_progress
 export HEADLESS_SETUP
 
 update_package_index
+
+install_python_packages
 
 headless_setup_populate_variables
 
