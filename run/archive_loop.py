@@ -189,19 +189,19 @@ class TeslaCamArchiver:
         return (deleted, deleted_size)
 
     def _delete_empty_folders(self, directory: pathlib.Path, remove_root: bool):
-        if not os.path.isdir(directory):
+        if not directory.is_dir():
             return
 
-        files = os.listdir(directory)
+        files = os.listdir(str(directory))
         if len(files):
             for f in files:
-                fullpath = os.path.join(directory, f)
-                if os.path.isdir(fullpath):
+                fullpath = directory.joinpath(f)
+                if fullpath.is_dir():
                     self._delete_empty_folders(fullpath, True)
 
-        files = os.listdir(directory)
+        files = os.listdir(str(directory))
         if len(files) == 0 and remove_root:
-            os.rmdir(directory)
+            os.rmdir(str(directory))
 
     def _move_files(self, files: Filesinfo, base_path: pathlib.Path):
         self._logger.info('Moving files...')
