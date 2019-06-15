@@ -15,6 +15,7 @@ export sharename=your_archive_share_name
 export shareuser=username
 export sharepassword=password
 export campercent=100
+export archivemaxsize = 100
 
 # Wifi setup information
 export SSID=your_ssid
@@ -30,6 +31,13 @@ export HEADLESS_SETUP=true
 # export pushover_enabled=false
 # export pushover_user_key=user_key
 # export pushover_app_key=app_key
+
+# Uncomment is setting up SNS push notifications
+# export sns_enabled=true
+# export aws_region=us-east-1
+# export aws_access_key_id=put_your_accesskeyid_here
+# export aws_secret_key=put_your_secretkey_here
+# export aws_sns_topic_arn=put_your_sns_topicarn_here
 
 # Uncomment and change if you want setup scripts to be pulled
 # from a different repo than the "main" github.com/marcsanfacon/teslausb

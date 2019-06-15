@@ -41,7 +41,7 @@ function install_rc_local () {
     echo "archiveserver=\"${archiveserver}\"" >> ~/rc.local
     echo "install_home=\"${install_home}\"" >> ~/rc.local
     cat << 'EOF' >> ~/rc.local
-LOGFILE=/tmp/rc.local.log
+LOGFILE=/mutable/rc.local.log
 
 function log () {
   echo "$( date )" >> "$LOGFILE"
@@ -49,7 +49,8 @@ function log () {
 }
 
 log "Launching archival script..."
-"$install_home"/archiveloop "$archiveserver" &
+
+python3 "$install_home"/archive_loop.py -n "$archiveserver" -m "$archivemaxsize" &
 log "All done"
 exit 0
 EOF
@@ -116,6 +117,7 @@ function install_archive_scripts () {
 
     echo "Installing base archive scripts into $install_path"
     get_script $install_path archiveloop run
+    get_script $install_path archive-loop.py run
     get_script $install_path remountfs_rw run
     get_script $install_path lookup-ip-address.sh run
 
@@ -202,8 +204,8 @@ function configure_sns () {
         echo "[default]" > /root/.aws/config
         echo "region = $aws_region" >> /root/.aws/config
 
-        echo "export sns_enabled=true" > /root/.teslaCamSNSTopicARN
-        echo "export sns_topic_arn=$aws_sns_topic_arn" >> /root/.teslaCamSNSTopicARN
+        echo "[SNS]" > /root/.teslaCamSNSTopicARN
+        echo "sns_topic_arn=$aws_sns_topic_arn" >> /root/.teslaCamSNSTopicARN
     else
         echo "SNS not configured."
     fi
@@ -213,12 +215,6 @@ function check_and_configure_sns () {
     check_sns_configuration
     
     configure_sns
-}
-
-function install_sns_scripts() {
-    local install_path="$1"
-    get_script $install_path send-sns run
-    get_script $install_path send_sns.py run
 }
 
 if [ "$ARCHIVE_SYSTEM" = "none" ]
@@ -244,7 +240,6 @@ check_and_configure_pushover
 install_pushover_scripts "$INSTALL_DIR"
 
 check_and_configure_sns
-install_sns_scripts "$INSTALL_DIR"
 
 check_archive_configs
 

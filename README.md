@@ -78,6 +78,13 @@ Follow the instructions corresponding to the technology you'd like to use to hos
 * SFTP/rsync: [Instructions](doc/SetupRSync.md)
 * **Experimental:** Google Drive, Amazon S3, DropBox, Microsoft OneDrive: [Instructions](doc/SetupRClone.md)
 
+Indicate how much, in GB, the total space used on the archive for cam clips. The script will automatically do clean up. Default is 100GB
+
+```
+ export archivemaxsize=<number>
+```
+
+
 ### Optional: Allocate SD Card Storage
 Indicate how much, as a percentage, of the drive you want to allocate to recording dashcam footage by running this command:
 

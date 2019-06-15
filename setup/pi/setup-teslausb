@@ -8,6 +8,7 @@ CONFIGURE_ARCHIVING=${CONFIGURE_ARCHIVING:-true}
 UPGRADE_PACKAGES=${UPGRADE_PACKAGES:-true}
 TESLAUSB_HOSTNAME=${TESLAUSB_HOSTNAME:-teslausb}
 export campercent=${campercent:-90}
+export archivemaxsize=${archivemaxsize:-100}
 
 function setup_progress () {
   local setup_logfile=/boot/teslausb-headless-setup.log
