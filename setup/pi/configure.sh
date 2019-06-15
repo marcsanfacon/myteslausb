@@ -39,6 +39,7 @@ function install_rc_local () {
     echo "Configuring /etc/rc.local to run the archive scripts at startup..."
     echo "#!/bin/bash -eu" > ~/rc.local
     echo "archiveserver=\"${archiveserver}\"" >> ~/rc.local
+    echo "archivemaxsize=\"${archivemaxsize}\"" >> ~/rc.local
     echo "install_home=\"${install_home}\"" >> ~/rc.local
     cat << 'EOF' >> ~/rc.local
 LOGFILE=/mutable/rc.local.log
