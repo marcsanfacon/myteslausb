@@ -5,7 +5,6 @@ import glob
 import logging
 import os
 import pathlib
-import shutil
 import subprocess
 import time
 
@@ -220,7 +219,7 @@ class TeslaCamArchiver:
                     if not dst_path.parent.exists():
                         os.makedirs(str(dst_path.parent))
 
-                shutil.move(str(file._path), str(dst_path))
+                self._execute(['mv', '-f', str(file._path), str(dst_path)])
 
         self._delete_empty_folders(self._cam_path.joinpath(CAM_DIR), False)
 
@@ -251,7 +250,7 @@ class TeslaCamArchiver:
 
         if moved > 0 or deleted > 0:
             self._send_sns("{} file(s) for {}GB were copied and {} file(s) for {}GB were deleted in {:10.2f} seconds.".format(moved, moved_size / GB, deleted, deleted_size / GB, time.time() - start))
-            
+
         self._logger.info('Done archiving.')
 
     def _archive_teslacam_clips(self):
