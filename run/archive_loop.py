@@ -234,12 +234,13 @@ class TeslaCamArchiver:
             self._logger.debug(response)
   
     def _do_archiving(self):
+        start = time.time()
         self._logger.info('Starting to archive...')
         archived_files = self._get_all_files_information(self._archive_path)
         cam_files = self._get_all_files_information(self._cam_path.joinpath(CAM_DIR))
         total_size = archived_files._size + cam_files._size
 
-        self._logger.debug('Total_size {}, max_size {}'.format(total_size, self._max_size))
+        self._logger.debug('Total_size {}, max_size {} in {:10.1f}'.format(total_size, self._max_size, time.time() - start))
 
         deleted = 0
         deleted_size = 0
@@ -248,7 +249,9 @@ class TeslaCamArchiver:
         
         moved, moved_size = self._move_files(cam_files, self._cam_path.joinpath(CAM_DIR))
 
-        self._send_sns("{} file(s) for {}GB were copied.".format(moved, moved_size / GB))
+        if moved > 0 or deleted > 0:
+            self._send_sns("{} file(s) for {}GB were copied and {} file(s) for {}GB were deleted in {:10.2f} seconds.".format(moved, moved_size / GB, deleted, deleted_size / GB, time.time() - start))
+            
         self._logger.info('Done archiving.')
 
     def _archive_teslacam_clips(self):
